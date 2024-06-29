@@ -5,10 +5,16 @@ import {
   LogoSection,
   WelcomeSection,
 } from "@/styles/pages/login";
+import Head from "next/head";
 
 export default function Login() {
   return (
     <LoginContainer>
+      <Head>
+        <title>Login | BookWise</title>
+        <link rel="shortcut icon" href="/favicon.svg" type="image/svg" />
+      </Head>
+
       <LogoSection>
         <img src="/images/logo.svg" alt="BookWise Logo" />
       </LogoSection>
