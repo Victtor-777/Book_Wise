@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { styled } from "../../../stitches.config";
 
 export const Container = styled("aside", {
@@ -18,5 +19,38 @@ export const Container = styled("aside", {
   ".logo": {
     width: 128,
     marginBottom: 64,
+  },
+});
+
+export const LoginButton = styled(Link, {
+  textDecoration: "none",
+  color: "$gray200",
+  fontWeight: 700,
+  background: "none",
+  border: "none",
+  fontSize: "$md",
+  display: "flex",
+  alignItems: "center",
+  gap: "$3",
+
+  svg: {
+    color: "$green100",
+  },
+});
+
+export const UserDetails = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  gap: "$3",
+
+  svg: {
+    cursor: "pointer",
+  },
+
+  p: {
+    maxWidth: 100,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 });
