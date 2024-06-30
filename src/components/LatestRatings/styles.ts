@@ -11,4 +11,11 @@ export const Container = styled("div", {
   "&::-webkit-scrollbar": {
     display: "none",
   },
+
+  "> section": {
+    display: "flex",
+    flexDirection: "column",
+    gap: "$3",
+    marginTop: "$4",
+  },
 });
