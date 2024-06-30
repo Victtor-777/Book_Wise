@@ -1,15 +1,13 @@
-import { signOut, useSession } from "next-auth/react";
+import { HomeContainer } from "@/styles/pages/home";
 import { NextPageWithLayout } from "./_app";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
+import { LatestRatings } from "@/components/LatestRatings";
 
 const HomePage: NextPageWithLayout = () => {
-  const { data } = useSession();
-
   return (
-    <div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-      <button onClick={() => signOut()}>Deslogar</button>
-    </div>
+    <HomeContainer>
+      <LatestRatings />
+    </HomeContainer>
   );
 };
 
