@@ -17,7 +17,30 @@ export const LatestRatings = () => {
 
       <section>
         {Array.from({ length: 20 }).map((_, i) => (
-          <RatingCard key={i} />
+          <RatingCard
+            key={i}
+            rating={{
+              id: "aa",
+              rate: 4,
+              user: {
+                name: "Victtor",
+                avatar_url: "https://github.com/Victtor-777.png",
+                email: "vitor@gmail.com",
+                id: "82363789hd89238yr783",
+                created_at: new Date(),
+              },
+              book: {
+                author: "John Doe",
+                cover_url: "https://github.com/Victtor-777.png",
+                id: "asjkdhjaskd",
+                name: "John Doe",
+                summary: "John Doe",
+                total_pages: 100,
+                created_at: new Date(),
+              },
+              created_at: new Date(),
+            }}
+          />
         ))}
       </section>
     </Container>
