@@ -1,7 +1,14 @@
 import Image from "next/image";
 import { styled } from "../../../stitches.config";
 
-export const Container = styled("div", {});
+export const Container = styled("div", {
+  width: "100%",
+  borderRadius: 8,
+  padding: "$6",
+  display: "flex",
+  flexDirection: "column",
+  background: "$gray700",
+});
 
 export const UserDetails = styled("div", {
   display: "flex",
