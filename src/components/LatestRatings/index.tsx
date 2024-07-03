@@ -7,14 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/axios";
 
 export const LatestRatings = () => {
-  // const { data: ratings } = useQuery<RatingWithAuthorAndBook[]>(
-  //   ["latest-ratings"],
-  //   async () => {
-  //     const { data } = await api.get("/ratings/latest");
-  //     return data?.ratings ?? [];
-  //   }
-  // );
-
   const { data: ratings } = useQuery<RatingWithAuthorAndBook[]>({
     queryKey: ["latest-ratings"],
     queryFn: async () => {

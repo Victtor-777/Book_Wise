@@ -1,9 +1,21 @@
-import { BookCard } from "../BookCard";
+import { useQuery } from "@tanstack/react-query";
+import { BookCard, BookWithAvgRating } from "../BookCard";
 import { Text } from "../Typography";
 import { Link } from "../ui/Link";
 import { Container } from "./styles";
+import { api } from "@/lib/axios";
 
 export const PopularBooks = () => {
+  const { data: popularBooks } = useQuery<BookWithAvgRating[]>({
+    queryKey: ["popularBooks"],
+    queryFn: async () => {
+      const { data } = await api.get("/books/popular");
+      return data?.books ?? [];
+    },
+  });
+
+  console.log(popularBooks);
+
   return (
     <Container>
       <header>
@@ -12,21 +24,8 @@ export const PopularBooks = () => {
       </header>
 
       <section>
-        {Array.from({ length: 4 }).map((_, i) => (
-          <BookCard
-            key={`popular-${i}`}
-            book={{
-              author: "John Doe",
-              avgRating: 4,
-              cover_url: "https://github.com/Victtor-777.png",
-              created_at: new Date(),
-              id: "sajksajk72382y38",
-              name: "Lorem Ipsum color sit amet",
-              summary:
-                "Lorem Ipsum color sit amet, Lorem Ipsum color sit amet, Lorem Ipsum color sit amet",
-              total_pages: 100,
-            }}
-          />
+        {popularBooks?.map((book) => (
+          <BookCard key={`popular-${book.id}`} book={book} />
         ))}
       </section>
     </Container>
