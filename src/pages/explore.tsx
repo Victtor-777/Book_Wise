@@ -1,4 +1,4 @@
-import { ExploreContainer, TagsContainer } from "@/styles/pages/explore";
+import { BooksGrid, ExploreContainer, TagsContainer } from "@/styles/pages/explore";
 import { NextPageWithLayout } from "./_app";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
 import { PageTitle } from "@/components/ui/PageTitle";
@@ -6,9 +6,22 @@ import { Binoculars, MagnifyingGlass } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/Form/Input";
 import { useState } from "react";
 import { Tag } from "@/components/ui/Tag";
+import { BookCard } from "@/components/BookCard";
+import { useQuery } from "@tanstack/react-query";
+import { Category } from "@prisma/client";
+import { api } from "@/lib/axios";
 
 const ExplorePage: NextPageWithLayout = () => {
   const [search, setSearch] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const { data: categories } = useQuery<Category[]>({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const { data } = await api.get("/books/categories");
+      return data?.categories ?? [];
+    },
+  });
 
   return (
     <ExploreContainer>
@@ -24,13 +37,19 @@ const ExplorePage: NextPageWithLayout = () => {
       </header>
 
       <TagsContainer>
-        <Tag active>
+        <Tag active={selectedCategory === null} onClick={() => setSelectedCategory(null)}>
           Todos
         </Tag>
-        <Tag>
-          Computação
-        </Tag>
+        {categories?.map((categorie) => (
+          <Tag key={categorie.id} active={selectedCategory === categorie.id} onClick={() => setSelectedCategory(categorie.id)} >
+            {categorie.name}
+          </Tag>
+        ))}
       </TagsContainer>
+
+      <BooksGrid>
+        {/* <BookCard size="lg" book={} /> */}
+      </BooksGrid>
 
     </ExploreContainer>
   );
