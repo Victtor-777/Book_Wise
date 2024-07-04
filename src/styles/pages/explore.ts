@@ -24,7 +24,7 @@ export const TagsContainer = styled("div", {
 export const BooksGrid = styled("div", {
   display: "grid",
   height: "100%",
-  gridAutoColumns: "repeat(3, 1fr)",
+  gridTemplateColumns: "repeat(3, 1fr)",
   gridAutoRows: 188,
   gap: "$5",
   overflowY: "auto",
