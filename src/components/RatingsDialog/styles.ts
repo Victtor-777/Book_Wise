@@ -1,11 +1,12 @@
-import * as Dialog from "@radix-ui/react-dialog"
+import * as Dialog from "@radix-ui/react-dialog";
 import { styled } from "../../../stitches.config";
+import Image from "next/image";
 
 export const DialogOverlay = styled(Dialog.Overlay, {
   position: "fixed",
   inset: 0,
-  background: "#00000099"
-})
+  background: "#00000099",
+});
 
 export const DialogContent = styled(Dialog.Content, {
   position: "fixed",
@@ -30,8 +31,8 @@ export const DialogContent = styled(Dialog.Content, {
 
   "&::-webkit-scrollbar-tumb": {
     background: "$gray600",
-  }
-})
+  },
+});
 
 export const DialogClose = styled(Dialog.Close, {
   color: "$gray400",
@@ -41,5 +42,38 @@ export const DialogClose = styled(Dialog.Close, {
   marginBottom: "$4",
   display: "flex",
   alignItems: "center",
-  justifyContent: "center"
-})
+  justifyContent: "center",
+});
+
+export const BookDetailsWrapper = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  background: "$gray700",
+  padding: "$6 $8",
+  borderRadius: "$md",
+});
+
+export const BookDetailsContainer = styled("div", {
+  display: "flex",
+  gap: "$8",
+});
+
+export const BookImage = styled(Image, {
+  borderRadius: "$md",
+  objectFit: "cover",
+  minWidth: 171,
+});
+
+export const BookContent = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+});
+
+export const BookInfos = styled("div", {
+  marginTop: 40,
+  paddingTop: 24,
+  borderTop: "1px solid $gray600",
+  display: "flex",
+  gap: 60,
+});
