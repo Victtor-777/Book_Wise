@@ -26,7 +26,7 @@ export const Link = ({
       as={onClick ? "button" : undefined}
     >
       {text}
-      {!withoutIcon && iconSide === "right" ? <CaretRight /> : <CaretLeft />}
+      {!withoutIcon && (iconSide === "right" ? <CaretRight /> : <CaretLeft />)}
     </Container>
   );
 };

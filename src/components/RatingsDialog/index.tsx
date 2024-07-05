@@ -14,6 +14,7 @@ import { BookmarkSimple, BookOpen, X } from "@phosphor-icons/react";
 import { Heading, Text } from "../Typography";
 import { RatingStars } from "../RatingStars";
 import { BookInfo } from "./BookInfo";
+import { BookRatings } from "../BookRatings";
 
 type RatingsDialogProps = {
   children: ReactNode;
@@ -63,6 +64,8 @@ export const RatingsDialog = ({ children }: RatingsDialogProps) => {
               <BookInfo icon={<BookOpen />} title="Páginas" info="217" />
             </BookInfos>
           </BookDetailsWrapper>
+
+          <BookRatings />
         </DialogContent>
       </Dialog.Portal>
     </Dialog.Root>
