@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import {
   BookContent,
   BookDetailsContainer,
@@ -15,14 +15,39 @@ import { Heading, Text } from "../Typography";
 import { RatingStars } from "../RatingStars";
 import { BookInfo } from "./BookInfo";
 import { BookRatings } from "../BookRatings";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/lib/axios";
+import { BookWithAvgRating } from "../BookCard";
+import { RatingWithAuthor } from "../UserRatingCard";
+import { categories } from "./../../../prisma/constants/categories";
+import { CategoriesOnBooks, Category } from "@prisma/client";
+
+type BookDetails = BookWithAvgRating & {
+  rattings: RatingWithAuthor[];
+  categories: (CategoriesOnBooks & {
+    category: Category;
+  })[];
+};
 
 type RatingsDialogProps = {
+  bookId: string;
   children: ReactNode;
 };
 
-export const RatingsDialog = ({ children }: RatingsDialogProps) => {
+export const RatingsDialog = ({ bookId, children }: RatingsDialogProps) => {
+  const [open, setOpen] = useState(false);
+
+  const { data: book } = useQuery<BookDetails>({
+    queryKey: ["book", bookId],
+    queryFn: async () => {
+      const { data } = await api.get(`/books/details/${bookId}`);
+      return data?.book ?? {};
+    },
+    enabled: open,
+  });
+
   return (
-    <Dialog.Root>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
 
       <Dialog.Portal>
@@ -55,12 +80,18 @@ export const RatingsDialog = ({ children }: RatingsDialogProps) => {
                     color={"gray-400"}
                     size={"sm"}
                     css={{ marginTop: "$1" }}
-                  >2 avaliações</Text>
+                  >
+                    2 avaliações
+                  </Text>
                 </div>
               </BookContent>
             </BookDetailsContainer>
             <BookInfos>
-              <BookInfo icon={<BookmarkSimple />} title="Categorias" info="Ficção, Ação" />
+              <BookInfo
+                icon={<BookmarkSimple />}
+                title="Categorias"
+                info="Ficção, Ação"
+              />
               <BookInfo icon={<BookOpen />} title="Páginas" info="217" />
             </BookInfos>
           </BookDetailsWrapper>

@@ -1,5 +1,11 @@
 import { Book } from "@prisma/client";
-import { BookDetails, BookImage, BookName, Container, ReadBadge } from "./styles";
+import {
+  BookDetails,
+  BookImage,
+  BookName,
+  Container,
+  ReadBadge,
+} from "./styles";
 import { Text } from "../Typography";
 import { RatingStars } from "../RatingStars";
 import { RatingsDialog } from "../RatingsDialog";
@@ -29,11 +35,9 @@ export const BookCard = ({ book, size = "md" }: BookCardProps) => {
   const currentSize = IMAGE_SIZES[size];
 
   return (
-    <RatingsDialog>
+    <RatingsDialog bookId={book?.id}>
       <Container>
-        {book.alreadyRead && (
-          <ReadBadge>LIDO</ReadBadge>
-        )}
+        {book.alreadyRead && <ReadBadge>LIDO</ReadBadge>}
 
         <BookImage
           width={currentSize.width}

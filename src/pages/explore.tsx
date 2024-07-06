@@ -1,4 +1,8 @@
-import { BooksGrid, ExploreContainer, TagsContainer } from "@/styles/pages/explore";
+import {
+  BooksGrid,
+  ExploreContainer,
+  TagsContainer,
+} from "@/styles/pages/explore";
 import { NextPageWithLayout } from "./_app";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
 import { PageTitle } from "@/components/ui/PageTitle";
@@ -29,16 +33,19 @@ const ExplorePage: NextPageWithLayout = () => {
       const { data } = await api.get("/books", {
         params: {
           category: selectedCategory,
-        }
+        },
       });
 
-      return data?.books ?? []
-    }
-  })
+      return data?.books ?? [];
+    },
+  });
 
   const filteredBooks = books?.filter((book) => {
-    return book.name.toLowerCase().includes(search.toLowerCase()) || book.author.toLowerCase().includes(search.toLowerCase())
-  })
+    return (
+      book.name.toLowerCase().includes(search.toLowerCase()) ||
+      book.author.toLowerCase().includes(search.toLowerCase())
+    );
+  });
 
   return (
     <ExploreContainer>
@@ -49,16 +56,23 @@ const ExplorePage: NextPageWithLayout = () => {
           icon={<MagnifyingGlass size={20} />}
           value={search}
           onChange={({ target }) => setSearch(target.value)}
-          css={{maxWidth: 443}}
+          css={{ maxWidth: 443 }}
         />
       </header>
 
       <TagsContainer>
-        <Tag active={selectedCategory === null} onClick={() => setSelectedCategory(null)}>
+        <Tag
+          active={selectedCategory === null}
+          onClick={() => setSelectedCategory(null)}
+        >
           Todos
         </Tag>
         {categories?.map((categorie) => (
-          <Tag key={categorie.id} active={selectedCategory === categorie.id} onClick={() => setSelectedCategory(categorie.id)} >
+          <Tag
+            key={categorie.id}
+            active={selectedCategory === categorie.id}
+            onClick={() => setSelectedCategory(categorie.id)}
+          >
             {categorie.name}
           </Tag>
         ))}
@@ -69,7 +83,6 @@ const ExplorePage: NextPageWithLayout = () => {
           <BookCard key={book.id} size={"lg"} book={book} />
         ))}
       </BooksGrid>
-
     </ExploreContainer>
   );
 };
