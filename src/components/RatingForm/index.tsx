@@ -37,7 +37,11 @@ export const RatingForm = ({ onCancel, bookId }: RatingFormProps) => {
             <Heading size={"xs"}>{user.name}</Heading>
           </section>
 
-          <RatingStars size={"lg"} rating={currentRate} />
+          <RatingStars
+            size={"lg"}
+            rating={currentRate}
+            setRating={setCurrentRate}
+          />
         </UserDetails>
       )}
 
