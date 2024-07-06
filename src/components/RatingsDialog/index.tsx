@@ -46,6 +46,11 @@ export const RatingsDialog = ({ bookId, children }: RatingsDialogProps) => {
     enabled: open,
   });
 
+  const ratingsLength = book?.rattings?.length ?? 0;
+
+  const categories =
+    book?.categories.map((x) => x.category.name).join(", ") ?? "";
+
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>{children}</Dialog.Trigger>
@@ -58,45 +63,56 @@ export const RatingsDialog = ({ bookId, children }: RatingsDialogProps) => {
             <X size={24} />
           </DialogClose>
 
-          <BookDetailsWrapper>
-            <BookDetailsContainer>
-              <BookImage
-                width={171}
-                height={242}
-                alt="Book name"
-                src={"https://github.com/Victtor-777.png"}
-              />
-              <BookContent>
-                <div>
-                  <Heading size={"sm"}>Book Name</Heading>
-                  <Text color={"gray-300"} css={{ marginTop: "$2" }}>
-                    Joe Doe
-                  </Text>
-                </div>
+          {!book ? (
+            <p>Carregando...</p>
+          ) : (
+            <>
+              <BookDetailsWrapper>
+                <BookDetailsContainer>
+                  <BookImage
+                    width={171}
+                    height={242}
+                    alt={book?.name}
+                    src={book?.cover_url}
+                  />
+                  <BookContent>
+                    <div>
+                      <Heading size={"sm"}>{book.name}</Heading>
+                      <Text color={"gray-300"} css={{ marginTop: "$2" }}>
+                        {book.author}
+                      </Text>
+                    </div>
 
-                <div>
-                  <RatingStars rating={4} size={"md"} />
-                  <Text
-                    color={"gray-400"}
-                    size={"sm"}
-                    css={{ marginTop: "$1" }}
-                  >
-                    2 avaliações
-                  </Text>
-                </div>
-              </BookContent>
-            </BookDetailsContainer>
-            <BookInfos>
-              <BookInfo
-                icon={<BookmarkSimple />}
-                title="Categorias"
-                info="Ficção, Ação"
-              />
-              <BookInfo icon={<BookOpen />} title="Páginas" info="217" />
-            </BookInfos>
-          </BookDetailsWrapper>
+                    <div>
+                      <RatingStars rating={4} size={"md"} />
+                      <Text
+                        color={"gray-400"}
+                        size={"sm"}
+                        css={{ marginTop: "$1" }}
+                      >
+                        {ratingsLength}{" "}
+                        {ratingsLength === 1 ? "avaliação" : "avaliações"}
+                      </Text>
+                    </div>
+                  </BookContent>
+                </BookDetailsContainer>
+                <BookInfos>
+                  <BookInfo
+                    icon={<BookmarkSimple />}
+                    title="Categorias"
+                    info={categories}
+                  />
+                  <BookInfo
+                    icon={<BookOpen />}
+                    title="Páginas"
+                    info={String(book.total_pages)}
+                  />
+                </BookInfos>
+              </BookDetailsWrapper>
 
-          <BookRatings />
+              <BookRatings ratings={book.rattings} />
+            </>
+          )}
         </DialogContent>
       </Dialog.Portal>
     </Dialog.Root>

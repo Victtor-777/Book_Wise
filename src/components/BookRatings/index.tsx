@@ -1,12 +1,18 @@
 import { Text } from "../Typography";
 import { Link } from "../ui/Link";
-import { UserRatingCard } from "../UserRatingCard";
+import { RatingWithAuthor, UserRatingCard } from "../UserRatingCard";
 import { Container } from "./styles";
 
-export const BookRatings = () => {
+type BookRatingsProps = {
+  ratings: RatingWithAuthor[];
+};
+
+export const BookRatings = ({ ratings }: BookRatingsProps) => {
   const handleRate = () => {
     console.log("Avaliar...");
   };
+
+  console.log(ratings);
 
   return (
     <Container>
@@ -16,20 +22,10 @@ export const BookRatings = () => {
       </header>
 
       <section>
-        {Array.from({ length: 10 }).map((_, index) => (
-          <UserRatingCard
-            key={index}
-            rating={{
-              rate: 2,
-              user: {
-                name: "John Doe",
-                avatar_url: "https://github.com/Victtor-777.png",
-              },
-              created_at: new Date(),
-              description: "Descrição qualquer ....",
-            }}
-          />
-        ))}
+        {ratings &&
+          ratings.map((rating) => (
+            <UserRatingCard key={rating.id} rating={rating} />
+          ))}
       </section>
     </Container>
   );
