@@ -23,7 +23,7 @@ import { categories } from "./../../../prisma/constants/categories";
 import { CategoriesOnBooks, Category } from "@prisma/client";
 
 type BookDetails = BookWithAvgRating & {
-  rattings: RatingWithAuthor[];
+  ratings: RatingWithAuthor[];
   categories: (CategoriesOnBooks & {
     category: Category;
   })[];
@@ -46,7 +46,7 @@ export const RatingsDialog = ({ bookId, children }: RatingsDialogProps) => {
     enabled: open,
   });
 
-  const ratingsLength = book?.rattings?.length ?? 0;
+  const ratingsLength = book?.ratings.length ?? 0;
 
   const categories =
     book?.categories.map((x) => x.category.name).join(", ") ?? "";
@@ -110,7 +110,7 @@ export const RatingsDialog = ({ bookId, children }: RatingsDialogProps) => {
                 </BookInfos>
               </BookDetailsWrapper>
 
-              <BookRatings ratings={book.rattings} />
+              <BookRatings ratings={book.ratings} />
             </>
           )}
         </DialogContent>
