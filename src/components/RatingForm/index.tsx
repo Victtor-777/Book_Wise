@@ -10,6 +10,8 @@ import { Heading } from "../Typography";
 import { RatingStars } from "../RatingStars";
 import { useState } from "react";
 import { TextArea } from "../ui/Form/TextArea";
+import { ActionIcon } from "../ui/ActionIcon";
+import { Check, X } from "@phosphor-icons/react";
 
 type RatingFormProps = {
   onCancel: () => void;
@@ -22,7 +24,9 @@ export const RatingForm = ({ onCancel, bookId }: RatingFormProps) => {
   const user = session?.user;
 
   const [description, setDescription] = useState("");
-  const [currentSize, setCurrentSize] = useState(0);
+  const [currentRate, setCurrentRate] = useState(0);
+
+  const submitDisabled = !description.trim() || !currentRate;
 
   return (
     <Container>
@@ -33,7 +37,7 @@ export const RatingForm = ({ onCancel, bookId }: RatingFormProps) => {
             <Heading size={"xs"}>{user.name}</Heading>
           </section>
 
-          <RatingStars size={"lg"} rating={currentSize} />
+          <RatingStars size={"lg"} rating={currentRate} />
         </UserDetails>
       )}
 
@@ -44,7 +48,20 @@ export const RatingForm = ({ onCancel, bookId }: RatingFormProps) => {
           value={description}
           onChange={({ target }) => setDescription(target.value)}
         />
-        <ActionsContainer></ActionsContainer>
+        <ActionsContainer>
+          <ActionIcon
+            type="button"
+            onClick={onCancel}
+            iconColor="purple100"
+            icon={<X />}
+          />
+          <ActionIcon
+            type="submit"
+            iconColor="green100"
+            icon={<Check />}
+            disabled={submitDisabled}
+          />
+        </ActionsContainer>
       </FormContainer>
     </Container>
   );
