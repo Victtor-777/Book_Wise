@@ -9,6 +9,7 @@ import { Avatar } from "../ui/Avatar";
 import { Heading } from "../Typography";
 import { RatingStars } from "../RatingStars";
 import { useState } from "react";
+import { TextArea } from "../ui/Form/TextArea";
 
 type RatingFormProps = {
   onCancel: () => void;
@@ -20,6 +21,7 @@ export const RatingForm = ({ onCancel, bookId }: RatingFormProps) => {
 
   const user = session?.user;
 
+  const [description, setDescription] = useState("");
   const [currentSize, setCurrentSize] = useState(0);
 
   return (
@@ -36,7 +38,12 @@ export const RatingForm = ({ onCancel, bookId }: RatingFormProps) => {
       )}
 
       <FormContainer>
-        <textarea />
+        <TextArea
+          placeholder="Escreva a sua avaliação"
+          maxLength={450}
+          value={description}
+          onChange={({ target }) => setDescription(target.value)}
+        />
         <ActionsContainer></ActionsContainer>
       </FormContainer>
     </Container>
