@@ -8,10 +8,12 @@ import {
 import { Avatar } from "../ui/Avatar";
 import { Heading } from "../Typography";
 import { RatingStars } from "../RatingStars";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { TextArea } from "../ui/Form/TextArea";
 import { ActionIcon } from "../ui/ActionIcon";
 import { Check, X } from "@phosphor-icons/react";
+import { api } from "@/lib/axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type RatingFormProps = {
   onCancel: () => void;
@@ -27,6 +29,29 @@ export const RatingForm = ({ onCancel, bookId }: RatingFormProps) => {
   const [currentRate, setCurrentRate] = useState(0);
 
   const submitDisabled = !description.trim() || !currentRate;
+
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: handleRate } = useMutation({
+    mutationFn: async () => {
+      await api.post(`/books/${bookId}/rate`, {
+        description,
+        rate: currentRate,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["book", bookId] });
+      queryClient.invalidateQueries({ queryKey: ["books"] });
+      // queryClient.invalidateQueries({ queryKey: ["latest-user-rating"] });
+      onCancel();
+    },
+  });
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (submitDisabled) return;
+    await handleRate();
+  };
 
   return (
     <Container>
@@ -45,7 +70,7 @@ export const RatingForm = ({ onCancel, bookId }: RatingFormProps) => {
         </UserDetails>
       )}
 
-      <FormContainer>
+      <FormContainer onSubmit={handleSubmit}>
         <TextArea
           placeholder="Escreva a sua avaliação"
           maxLength={450}

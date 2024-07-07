@@ -17,6 +17,10 @@ export const BookRatings = ({ ratings, bookId }: BookRatingsProps) => {
     setShowForm(true);
   };
 
+  const sortedRatingsByDate = ratings.sort((a, b) => {
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
+
   return (
     <Container>
       <header>
