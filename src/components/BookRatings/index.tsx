@@ -4,6 +4,7 @@ import { Link } from "../ui/Link";
 import { RatingWithAuthor, UserRatingCard } from "../UserRatingCard";
 import { Container } from "./styles";
 import { RatingForm } from "../RatingForm";
+import { useSession } from "next-auth/react";
 
 type BookRatingsProps = {
   ratings: RatingWithAuthor[];
@@ -11,9 +12,13 @@ type BookRatingsProps = {
 };
 
 export const BookRatings = ({ ratings, bookId }: BookRatingsProps) => {
+  const { status, data: session } = useSession();
   const [showForm, setShowForm] = useState(false);
 
+  const isAuthenticated = status === "authenticated";
+
   const handleRate = () => {
+    if (!isAuthenticated) return;
     setShowForm(true);
   };
 
@@ -21,18 +26,20 @@ export const BookRatings = ({ ratings, bookId }: BookRatingsProps) => {
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
 
+  const canRate = ratings.every((x) => x.user_id !== session?.user.id);
+
   return (
     <Container>
       <header>
         <Text>Avaliações</Text>
-        <Link withoutIcon onClick={handleRate} text="Avaliar" />
+        {canRate && <Link withoutIcon onClick={handleRate} text="Avaliar" />}
       </header>
 
       <section>
         {showForm && (
           <RatingForm bookId={bookId} onCancel={() => setShowForm(false)} />
         )}
-        {ratings.map((rating) => (
+        {sortedRatingsByDate.map((rating) => (
           <UserRatingCard key={rating.id} rating={rating} />
         ))}
       </section>
