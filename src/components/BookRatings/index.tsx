@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Text } from "../Typography";
 import { Link } from "../ui/Link";
 import { RatingWithAuthor, UserRatingCard } from "../UserRatingCard";
@@ -23,6 +23,8 @@ export const BookRatings = ({ ratings, bookId }: BookRatingsProps) => {
     setShowForm(true);
   };
 
+  const RatingWrapper = isAuthenticated ? Fragment : LoginDialog;
+
   const sortedRatingsByDate = ratings.sort((a, b) => {
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
@@ -34,9 +36,9 @@ export const BookRatings = ({ ratings, bookId }: BookRatingsProps) => {
       <header>
         <Text>Avaliações</Text>
         {canRate && (
-          <LoginDialog>
+          <RatingWrapper>
             <Link withoutIcon onClick={handleRate} text="Avaliar" />
-          </LoginDialog>
+          </RatingWrapper>
         )}
       </header>
 
