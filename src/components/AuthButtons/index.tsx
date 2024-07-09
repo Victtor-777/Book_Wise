@@ -3,10 +3,11 @@ import { AuthButton, Container } from "./styles";
 import { useRouter } from "next/router";
 
 type AuthButtonProps = {
+  canGuest?: boolean;
   callbackUrl?: string;
 };
 
-export function AuthButtons({ callbackUrl = "/" }: AuthButtonProps) {
+export function AuthButtons({ canGuest, callbackUrl = "/" }: AuthButtonProps) {
   const router = useRouter();
 
   const handleSignIn = (provider?: string) => {
@@ -29,10 +30,12 @@ export function AuthButtons({ callbackUrl = "/" }: AuthButtonProps) {
         <img src="/images/icons/github.svg" alt="github logo" />
         Entrar com Github
       </AuthButton>
-      <AuthButton onClick={() => handleSignIn()}>
+      {canGuest && (
+        <AuthButton onClick={() => handleSignIn()}>
         <img src="/images/icons/rocket.svg" alt="rocket icon" />
         Entrar como Visitante
       </AuthButton>
+    )}
     </Container>
   );
 }

@@ -5,6 +5,7 @@ import { RatingWithAuthor, UserRatingCard } from "../UserRatingCard";
 import { Container } from "./styles";
 import { RatingForm } from "../RatingForm";
 import { useSession } from "next-auth/react";
+import { LoginDialog } from "../LoginDialog";
 
 type BookRatingsProps = {
   ratings: RatingWithAuthor[];
@@ -32,7 +33,11 @@ export const BookRatings = ({ ratings, bookId }: BookRatingsProps) => {
     <Container>
       <header>
         <Text>Avaliações</Text>
-        {canRate && <Link withoutIcon onClick={handleRate} text="Avaliar" />}
+        {canRate && (
+          <LoginDialog>
+            <Link withoutIcon onClick={handleRate} text="Avaliar" />
+          </LoginDialog>
+        )}
       </header>
 
       <section>
