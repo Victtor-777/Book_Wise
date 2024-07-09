@@ -2,19 +2,19 @@ import { ReactElement } from "react";
 import { NextPageWithLayout } from "../_app";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
 import { HomeContainer } from "@/styles/pages/home";
-import { ProfileRatings } from "@/components/ProfileRatings";
+import { ProfileRating, ProfileRatings } from "@/components/ProfileRatings";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { api } from "@/lib/axios";
-import { Rating } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 export type ProfileData = {
+  ratings: ProfileRating[];
   user: {
     avatar_url: string;
     name: string;
     member_since: string;
   };
-  ratings: Rating[];
   readPages: number;
   ratedBooks: number;
   readAuthors: number;
@@ -25,6 +25,8 @@ const ProfilePage: NextPageWithLayout = () => {
   const router = useRouter();
   const userId = router.query.id as string;
 
+  const { data: session } = useSession();
+
   const { data: profile } = useQuery<ProfileData>({
     queryKey: ["profile", userId],
     queryFn: async () => {
@@ -34,11 +36,22 @@ const ProfilePage: NextPageWithLayout = () => {
     enabled: !!userId,
   });
 
+  const isOwnProfile = session?.user.id === userId;
+
   console.log(profile);
 
   return (
     <HomeContainer>
-      <ProfileRatings />
+      {profile ? (
+        <>
+          <ProfileRatings
+            isOwnProfile={isOwnProfile}
+            ratings={profile?.ratings}
+          />
+        </>
+      ) : (
+        <h1>Carregando...</h1>
+      )}
     </HomeContainer>
   );
 };
