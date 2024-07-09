@@ -4,8 +4,9 @@ import { PageTitle } from "../ui/PageTitle";
 import { MagnifyingGlass, User } from "@phosphor-icons/react";
 import { Link } from "../ui/Link";
 import { Input } from "../ui/Form/Input";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { ProfileRatingCard } from "./ProfileRatingCard";
+import { Text } from "../Typography";
 
 export type ProfileRating = Rating & {
   book: Book & {
@@ -26,6 +27,15 @@ export const ProfileRatings = ({
   ratings,
 }: ProfileRatingProps) => {
   const [search, setSearch] = useState<string>("");
+
+  const filteredRatings = useMemo(() => {
+    return ratings.filter((rating) => {
+      return rating.book.name
+        .toLocaleLowerCase()
+        .includes(search.toLocaleLowerCase());
+    });
+  }, [ratings, search]);
+
   return (
     <Container>
       {isOwnProfile ? (
@@ -47,9 +57,16 @@ export const ProfileRatings = ({
         onChange={({ target }) => setSearch(target.value)}
       />
       <RatingsList>
-        {ratings.map((rating) => (
+        {filteredRatings.map((rating) => (
           <ProfileRatingCard key={rating.id} rating={rating} />
         ))}
+        {filteredRatings.length <= 0 && (
+          <Text color={"gray-400"} css={{ textAlign: "center" }}>
+            {search
+              ? "Nenhum resultado encontrado"
+              : "Nenhuma avaliação encontrada"}
+          </Text>
+        )}
       </RatingsList>
     </Container>
   );
