@@ -1,8 +1,8 @@
 <p>
-  <img src="" width="100%" />
+  <img src="/public/preview.png" width="100%" />
 </p>
 
-# 📝 Book Wise 📝 
+# 📝 Book Wise 📝
 
 BookWise é uma plataforma de avaliação de livros que foi desenvolvida durante o bootcamp Ignite da Rocketseat. Com apenas o design do Figma precisávamos desenvolver essa aplicação completa Full Stack com Next.js. Nela o usuário poderá criar a sua avaliação para os livros disponíveis.
 
