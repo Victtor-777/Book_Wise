@@ -16,7 +16,7 @@ Passo a passo para clonar e executar a aplicação na sua máquina:
 
 ```bash
 # Clone este repositório
-$ git clone git@github.com:pabloxt14/book-wise.git
+$ git clone git@github.com:Victtor-777/Book_Wise.git
 
 # Acesse a pasta do projeto no terminal
 $ cd book-wise
